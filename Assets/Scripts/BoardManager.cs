@@ -30,7 +30,7 @@ public class BoardManager : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            if(selectionX >=0 && selectionY >=0)
+            if(selectionX >= 0 && selectionY >= 0)
             {
                 if(selectedPieces == null)
                 {
@@ -77,7 +77,7 @@ public class BoardManager : MonoBehaviour
             return;
 
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25.0f, LayerMask.GetMask("BoardPlane")))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 50.0f, LayerMask.GetMask("BoardPlane")))
         {
             selectionX = (int)hit.point.x;
             selectionY = (int)hit.point.z;
@@ -121,16 +121,16 @@ public class BoardManager : MonoBehaviour
         //Spawn the white team
 
         //Leader
-        SpawnPieces(3, 3, 9);
+        SpawnPieces(3, 3, 8);
 
         //Special
-        SpawnPieces(4, 2, 9);
+        SpawnPieces(4, 2, 8);
 
         //Base 1
-        SpawnPieces(5, 1, 10);
+        SpawnPieces(5, 1, 9);
 
         //Base 2
-        SpawnPieces(5, 4, 10);
+        SpawnPieces(5, 4, 9);
     }
 
     private Vector3 GetTileCenter(int x, int y)
