@@ -7,88 +7,32 @@ public class BasePiece : Pieces
     public override bool[,] PossibleMove()
     {
         bool[,] r = new bool[6, 10];
-        Pieces c, c2;
 
-        //WHite team move
-        if (isWhite)
-        {
-
-            //Forward
-            if (CurrentY != 9)
-            {
-                c = BoardManager.Instance.PlayerPieces[CurrentX, CurrentY + 1];
-                if (c == null)
-                    r[CurrentX, CurrentY + 1] = true;
-            }
-
-            //Backward
-            if (CurrentY != 0)
-            {
-                c = BoardManager.Instance.PlayerPieces[CurrentX, CurrentY + 1];
-                if (c == null)
-                    r[CurrentX, CurrentY + 1] = true;
-            }
-
-            //Middle Left
-            if (CurrentX != 0)
-            {
-                c = BoardManager.Instance.PlayerPieces[CurrentX - 1, CurrentY];
-                if (c == null)
-                    r[CurrentX - 1, CurrentY] = true;
-                else if (isWhite != c.isWhite)
-                    r[CurrentX - 1, CurrentY] = true;
-            }
-
-            //Middle Right
-            if (CurrentX != 5)
-            {
-                c = BoardManager.Instance.PlayerPieces[CurrentX - 1, CurrentY];
-                if (c == null)
-                    r[CurrentX + 1, CurrentY] = true;
-                else if (isWhite != c.isWhite)
-                    r[CurrentX + 1, CurrentY] = true;
-            }
-        }
-
-        else
-        {
-            //Forward
-            if (CurrentY != 0)
-            {
-                c = BoardManager.Instance.PlayerPieces[CurrentX, CurrentY - 1];
-                if (c == null)
-                    r[CurrentX, CurrentY - 1] = true;
-            }
-        }
+        //Forward
+        BasePieceMove(CurrentX, CurrentY + 1, ref r);
 
         //Backward
-        if (CurrentY != 9)
-        {
-            c = BoardManager.Instance.PlayerPieces[CurrentX, CurrentY + 1];
-            if (c == null)
-                r[CurrentX, CurrentY + 1] = true;
-        }
+        BasePieceMove(CurrentX, CurrentY - 1, ref r);
 
-        //Middle Left
-        if (CurrentX != 0)
-        {
-            c = BoardManager.Instance.PlayerPieces[CurrentX - 1, CurrentY];
-            if (c == null)
-                r[CurrentX - 1, CurrentY] = true;
-            else if (isWhite != c.isWhite)
-                r[CurrentX - 1, CurrentY] = true;
-        }
+        //Left
+        BasePieceMove(CurrentX - 1, CurrentY, ref r);
 
-        //Middle Right
-        if (CurrentX != 5)
-        {
-            c = BoardManager.Instance.PlayerPieces[CurrentX - 1, CurrentY];
-            if (c == null)
-                r[CurrentX + 1, CurrentY] = true;
-            else if (isWhite != c.isWhite)
-                r[CurrentX + 1, CurrentY] = true;
-        }
+        //Right
+        BasePieceMove(CurrentX + 1, CurrentY, ref r);
 
         return r;
+    }
+
+    public void BasePieceMove(int x, int y, ref bool[,] r)
+    {
+        Pieces c;
+        if (x >= 0 && x < 6 && y >= 0 && y < 10)
+        {
+            c = BoardManager.Instance.PlayerPieces[x, y];
+            if (c == null)
+                r[x, y] = true;
+            else if (isWhite != c.isWhite)
+                r[x, y] = true;
+        }
     }
 }

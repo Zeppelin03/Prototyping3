@@ -59,7 +59,16 @@ public class BoardManager : MonoBehaviour
         if (PlayerPieces [x , y].isWhite != isWhiteTurn)
             return;
 
+        bool hasAtlestOneMove = false;
         allowedMoves = PlayerPieces[x,y].PossibleMove();
+        for (int i = 0; i < 6; i++)
+            for (int j = 0; j < 10; j++)
+                if (allowedMoves[i, j])
+                    hasAtlestOneMove = true;
+
+        if (!hasAtlestOneMove)
+            return;
+
         selectedPieces = PlayerPieces[x, y];
         BoardHighlights.Instance.HighlightAllowedMoves(allowedMoves);
     }
@@ -77,7 +86,7 @@ public class BoardManager : MonoBehaviour
                 //If it is Leader
                 if(c.GetType() == typeof(Leader))
                 {
-                    //End the game
+                    EndGame();
                     return;
                 }
 
@@ -193,5 +202,20 @@ public class BoardManager : MonoBehaviour
                 Vector3.forward * (selectionY + 1) + Vector3.right * selectionX,
                 Vector3.forward * selectionY + Vector3.right * (selectionX + 1));
         }
+    }
+
+    private void EndGame()
+    {
+        if (isWhiteTurn)
+            Debug.Log("White team wins");
+        else
+            Debug.Log("Black team wins");
+
+        foreach (GameObject go in activePieces)
+            Destroy(go);
+
+        isWhiteTurn = true;
+        BoardHighlights.Instance.Hidehighlights();
+        SpawnAllPieces();
     }
 }
