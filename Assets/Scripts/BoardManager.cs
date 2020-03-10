@@ -21,6 +21,8 @@ public class BoardManager : MonoBehaviour
 
     public bool isWhiteTurn = true;
 
+    public float specialMove;
+
     private void Start()
     {
         Instance = this;

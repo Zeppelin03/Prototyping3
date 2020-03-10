@@ -11,6 +11,7 @@ public class Leader : Pieces
         Pieces c;
         int i, j;
 
+
         //Top Side
         i = CurrentX - 1;
         j = CurrentY + 1;
@@ -70,7 +71,6 @@ public class Leader : Pieces
             else if (isWhite != c.isWhite)
                 r[CurrentX + 1, CurrentY] = true;
         }
-
         return r;
     }
 }
