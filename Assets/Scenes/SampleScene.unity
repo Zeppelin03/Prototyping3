@@ -586,6 +586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1087659297}
   - component: {fileID: 1087659296}
+  - component: {fileID: 1087659298}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -628,6 +629,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1087659298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087659295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3730d3e9d2c4547b253486b547765d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightPrefab: {fileID: 556133819642903712, guid: 64cbddbb7e7cf314a800eb2829842d11,
+    type: 3}
 --- !u!1 &1363668776
 GameObject:
   m_ObjectHideFlags: 0

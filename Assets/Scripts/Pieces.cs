@@ -5,17 +5,17 @@ using UnityEngine;
 public abstract class Pieces : MonoBehaviour
 {
     public int CurrentX { set; get; }
-    public int Currenty { set; get; }
+    public int CurrentY { set; get; }
     public bool isWhite;
 
-    public void SetPosition (int x, int y)
+    public void SetPosition(int x, int y)
     {
         CurrentX = x;
-        Currenty = y;
+        CurrentY = y;
     }
 
-    public virtual bool PossibleMove(int x, int y)
+    public virtual bool[,] PossibleMove()
     {
-        return true;
+        return new bool[6,10];
     }
 }

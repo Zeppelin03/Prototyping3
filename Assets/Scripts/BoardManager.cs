@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    public static BoardManager Instance { set; get; }
+    private bool[,] allowedMoves{ set; get; }
+
     public Pieces[,] PlayerPieces   { set; get; }
     private Pieces selectedPieces;
 
@@ -20,6 +23,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
         SpawnAllPieces();
     }
 
@@ -55,19 +59,40 @@ public class BoardManager : MonoBehaviour
         if (PlayerPieces [x , y].isWhite != isWhiteTurn)
             return;
 
+        allowedMoves = PlayerPieces[x,y].PossibleMove();
         selectedPieces = PlayerPieces[x, y];
+        BoardHighlights.Instance.HighlightAllowedMoves(allowedMoves);
     }
 
     private void MovePiece(int x, int y)
     {
-        if(selectedPieces.PossibleMove(x, y))
+        if(allowedMoves[x,y])
         {
-            PlayerPieces [selectedPieces.CurrentX, selectedPieces.Currenty] = null;
+            Pieces c = PlayerPieces[x, y];
+
+            if(c != null && c.isWhite != isWhiteTurn)
+            {
+                //Capture a piece
+
+                //If it is Leader
+                if(c.GetType() == typeof(Leader))
+                {
+                    //End the game
+                    return;
+                }
+
+                activePieces.Remove(c.gameObject);
+                Destroy(c.gameObject);
+            }
+
+            PlayerPieces [selectedPieces.CurrentX, selectedPieces.CurrentY] = null;
             selectedPieces.transform.position = GetTileCenter(x, y);
+            selectedPieces.SetPosition(x, y);
             PlayerPieces[x, y] = selectedPieces;
             isWhiteTurn = !isWhiteTurn;
         }
 
+        BoardHighlights.Instance.Hidehighlights();
         selectedPieces = null;
     }
 
@@ -101,36 +126,36 @@ public class BoardManager : MonoBehaviour
     private void SpawnAllPieces()
     {
         activePieces = new List<GameObject>();
-        PlayerPieces = new Pieces[6, 11];
+        PlayerPieces = new Pieces[6, 10];
 
-        //Spawn the black team.
-
-        //Leader
-        SpawnPieces(0, 2, 1);
-
-        //Special
-        SpawnPieces(1, 3, 1);
-
-        //Base 1
-        SpawnPieces(2, 1, 0);
-
-        //Base 2
-        SpawnPieces(2, 4, 0);
-
-
-        //Spawn the white team
+        //Spawn the white team.
 
         //Leader
-        SpawnPieces(3, 3, 8);
+        SpawnPieces(3, 2, 1);
 
         //Special
-        SpawnPieces(4, 2, 8);
+        SpawnPieces(4, 3, 1);
 
         //Base 1
-        SpawnPieces(5, 1, 9);
+        SpawnPieces(5, 1, 0);
 
         //Base 2
-        SpawnPieces(5, 4, 9);
+        SpawnPieces(5, 4, 0);
+
+
+        //Spawn the black team
+
+        //Leader
+        SpawnPieces(0, 3, 8);
+
+        //Special
+        SpawnPieces(1, 2, 8);
+
+        //Base 1
+        SpawnPieces(2, 1, 9);
+
+        //Base 2
+        SpawnPieces(2, 4, 9);
     }
 
     private Vector3 GetTileCenter(int x, int y)
