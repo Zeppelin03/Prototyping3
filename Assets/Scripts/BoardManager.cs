@@ -9,6 +9,7 @@ public class BoardManager : MonoBehaviour
 
     public Pieces[,] PlayerPieces   { set; get; }
     private Pieces selectedPieces;
+    public Pieces b;
 
     private const float TILE_SIZE = 1.0f;
     private const float TILE_OFFSET = 0.5f;
@@ -36,6 +37,8 @@ public class BoardManager : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
+            b = selectedPieces;
+
             if(selectionX >= 0 && selectionY >= 0)
             {
                 if(selectedPieces == null)
@@ -86,13 +89,21 @@ public class BoardManager : MonoBehaviour
                 //Capture a piece
 
                 //If it is Leader
-                if (c.GetType() == typeof(Leader))
+                if (c.GetType() == typeof(Leader) && selectedPieces.GetType() == typeof(Leader))
                 {
                     EndGame();
                     return;
                 }
+                else if(c.isWhite == true)
+                    {
+                      SpawnPieces(3, 2, 1);
+                }
+                else
+                {
+                    SpawnPieces(0, 3, 8);
+                }
 
-                activePieces.Remove(c.gameObject);
+                // activePieces.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
 
