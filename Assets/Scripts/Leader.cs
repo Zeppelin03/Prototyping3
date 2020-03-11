@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Leader : Pieces
+
 {
+
     public override bool[,] PossibleMove()
     {
         bool[,] r = new bool[6, 10];
@@ -31,6 +33,36 @@ public class Leader : Pieces
 
         //Down Left
         LeaderMove(CurrentX - 1, CurrentY - 1, ref r);
+
+
+        if (BoardManager.Instance.LeaderKilledBase == true && GameObject.Find("Board").GetComponent<BoardManager>().isWhiteTurn != true)
+        {
+            LeaderMove(CurrentX + 2, CurrentY + 2, ref r);
+            LeaderMove(CurrentX - 2, CurrentY + 2, ref r);
+            LeaderMove(CurrentX + 2, CurrentY - 2, ref r);
+            LeaderMove(CurrentX - 2, CurrentY - 2, ref r);
+        }
+        if(BoardManager.Instance.LeaderKilledSpecial == true && GameObject.Find("Board").GetComponent<BoardManager>().isWhiteTurn != true)
+        {
+            LeaderMove(CurrentX, CurrentY + 2, ref r);
+            LeaderMove(CurrentX, CurrentY - 2, ref r);
+            LeaderMove(CurrentX - 2, CurrentY, ref r);
+            LeaderMove(CurrentX + 2, CurrentY, ref r);
+        }
+        if (BoardManager.Instance.LeaderKilledBaseWhite == true && GameObject.Find("Board").GetComponent<BoardManager>().isWhiteTurn == true)
+        {
+            LeaderMove(CurrentX + 2, CurrentY + 2, ref r);
+            LeaderMove(CurrentX - 2, CurrentY + 2, ref r);
+            LeaderMove(CurrentX + 2, CurrentY - 2, ref r);
+            LeaderMove(CurrentX - 2, CurrentY - 2, ref r);
+        }
+        if (BoardManager.Instance.LeaderKilledSpecialWhite == true && GameObject.Find("Board").GetComponent<BoardManager>().isWhiteTurn == true)
+        {
+            LeaderMove(CurrentX, CurrentY + 2, ref r);
+            LeaderMove(CurrentX, CurrentY - 2, ref r);
+            LeaderMove(CurrentX - 2, CurrentY, ref r);
+            LeaderMove(CurrentX + 2, CurrentY, ref r);
+        }
 
         return r;
     }

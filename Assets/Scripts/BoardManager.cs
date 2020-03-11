@@ -24,10 +24,17 @@ public class BoardManager : MonoBehaviour
 
     public float specialMove;
 
+    public bool LeaderKilledBase;
+    public bool LeaderKilledBaseWhite;
+    public bool LeaderKilledSpecial;
+    public bool LeaderKilledSpecialWhite;
+
     private void Start()
     {
         Instance = this;
         SpawnAllPieces();
+        LeaderKilledBase = false;
+        LeaderKilledSpecial = false;
     }
 
     private void Update() 
@@ -94,16 +101,48 @@ public class BoardManager : MonoBehaviour
                     EndGame();
                     return;
                 }
-                else if(c.isWhite == true)
+
+                if (selectedPieces.GetType() == typeof(Leader))
+                {
+                    if (c.GetType() == typeof(BasePiece))
                     {
-                      SpawnPieces(3, 2, 1);
+                        LeaderKilledBase = true;
+                    }
+                    if (c.GetType() == typeof(SpecialPiece))
+                    {
+                        LeaderKilledSpecial = true;
+                    }
+                }
+                if (selectedPieces.GetType() == typeof(Leader) && isWhiteTurn)
+                {
+                    if (c.GetType() == typeof(BasePiece))
+                    {
+                        LeaderKilledBaseWhite = true;
+                        LeaderKilledBase = false;
+                    }
+                    if (c.GetType() == typeof(SpecialPiece))
+                    {
+                        LeaderKilledSpecialWhite = true;
+                        LeaderKilledSpecial = false;
+                    }
+                    else if (c.isWhite == true)
+                    {
+                        SpawnPieces(3, 2, 1);
+                    }
+                    else
+                    {
+                        SpawnPieces(0, 3, 8);
+                    }
+                    Destroy(c.gameObject);
+                }
+                else if (c.isWhite == true)
+                {
+                    SpawnPieces(3, 2, 1);
                 }
                 else
                 {
                     SpawnPieces(0, 3, 8);
                 }
-
-                // activePieces.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
 
@@ -227,7 +266,12 @@ public class BoardManager : MonoBehaviour
         foreach (GameObject go in activePieces)
             Destroy(go);
 
-        isWhiteTurn = true;
+        LeaderKilledBase = false; ;
+        LeaderKilledBaseWhite = false;
+        LeaderKilledSpecial = false;
+        LeaderKilledSpecialWhite = false;
+
+    isWhiteTurn = true;
         BoardHighlights.Instance.Hidehighlights();
         SpawnAllPieces();
     }
