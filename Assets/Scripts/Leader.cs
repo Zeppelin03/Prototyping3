@@ -8,69 +8,43 @@ public class Leader : Pieces
     {
         bool[,] r = new bool[6, 10];
 
-        Pieces c;
-        int i, j;
+        //Forward
+        LeaderMove(CurrentX, CurrentY + 1, ref r);
 
+        //Backward
+        LeaderMove(CurrentX, CurrentY - 1, ref r);
 
-        //Top Side
-        i = CurrentX - 1;
-        j = CurrentY + 1;
+        //Left
+        LeaderMove(CurrentX - 1, CurrentY, ref r);
 
-        if (CurrentY != 9)
-        {
-            for (int k = 0; k < 3; k++)
-            {
-                if (i >= 0 || i < 10)
-                {
-                    c = BoardManager.Instance.PlayerPieces[i, j];
-                    if (c == null)
-                        r[i, j] = true;
-                    else if (isWhite != c.isWhite)
-                        r[i, j] = true;
-                }
-                i++;
-            }
-        }
+        //Right
+        LeaderMove(CurrentX + 1, CurrentY, ref r);
 
-        //Down Side
-        i = CurrentX - 1;
-        j = CurrentY - 1;
+        //Top Right
+        LeaderMove(CurrentX + 1, CurrentY + 1, ref r);
 
-        if (CurrentY != 0)
-        {
-            for (int k = 0; k < 3; k++)
-            {
-                if (i >= 0 || i < 10)
-                {
-                    c = BoardManager.Instance.PlayerPieces[i, j];
-                    if (c == null)
-                        r[i, j] = true;
-                    else if (isWhite != c.isWhite)
-                        r[i, j] = true;
-                }
-                i++;
-            }
-        }
+        //Top Left
+        LeaderMove(CurrentX - 1, CurrentY + 1, ref r);
 
-        //Middle Left
-        if (CurrentX != 0)
-        {
-            c = BoardManager.Instance.PlayerPieces[CurrentX - 1, CurrentY];
-            if (c == null)
-                r[CurrentX - 1, CurrentY] = true;
-            else if (isWhite != c.isWhite)
-                r[CurrentX - 1, CurrentY] = true;
-        }
+        //Bown Right
+        LeaderMove(CurrentX + 1, CurrentY - 1, ref r);
 
-        //Middle Right
-        if (CurrentX != 5)
-        {
-            c = BoardManager.Instance.PlayerPieces[CurrentX - 1, CurrentY];
-            if (c == null)
-                r[CurrentX + 1, CurrentY] = true;
-            else if (isWhite != c.isWhite)
-                r[CurrentX + 1, CurrentY] = true;
-        }
+        //Down Left
+        LeaderMove(CurrentX - 1, CurrentY - 1, ref r);
+
         return r;
+    }
+
+    public void LeaderMove(int x, int y, ref bool[,] r)
+    {
+        Pieces c;
+        if (x >= 0 && x < 6 && y >= 0 && y < 10)
+        {
+            c = BoardManager.Instance.PlayerPieces[x, y];
+            if (c == null)
+                r[x, y] = true;
+            else if (isWhite != c.isWhite)
+                r[x, y] = true;
+        }
     }
 }
