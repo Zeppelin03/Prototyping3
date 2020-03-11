@@ -77,16 +77,16 @@ public class BoardManager : MonoBehaviour
 
     private void MovePiece(int x, int y)
     {
-        if(allowedMoves[x,y])
+        if (allowedMoves[x, y])
         {
             Pieces c = PlayerPieces[x, y];
 
-            if(c != null && c.isWhite != isWhiteTurn)
+            if (c != null && c.isWhite != isWhiteTurn)
             {
                 //Capture a piece
 
                 //If it is Leader
-                if(c.GetType() == typeof(Leader))
+                if (c.GetType() == typeof(Leader))
                 {
                     EndGame();
                     return;

@@ -31,7 +31,7 @@ public class BasePiece : Pieces
             c = BoardManager.Instance.PlayerPieces[x, y];
             if (c == null)
                 r[x, y] = true;
-            else if (isWhite != c.isWhite)
+            else if (isWhite != c.isWhite && c.isLeader != true)
                 r[x, y] = true;
         }
     }
