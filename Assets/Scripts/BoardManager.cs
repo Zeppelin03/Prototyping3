@@ -125,26 +125,19 @@ public class BoardManager : MonoBehaviour
                         LeaderKilledSpecialWhite = true;
                         LeaderKilledSpecial = false;
                     }
-                    else if (c.isWhite == true)
-                    {
-                        SpawnPieces(3, 2, 1);
-                    }
-                    else
-                    {
-                        SpawnPieces(0, 3, 8);
-                    }
-                    Destroy(c.gameObject);
                 }
-                else if (c.isWhite == true)
+
+                if (c.GetType() == typeof(Leader) && selectedPieces.GetType() != typeof(Leader) && c.isWhite == true)
                 {
                     SpawnPieces(3, 2, 1);
                 }
-                else
+                else if(c.GetType() == typeof(Leader) && selectedPieces.GetType() != typeof(Leader) && c.isWhite != true)
                 {
                     SpawnPieces(0, 3, 8);
                 }
-                Destroy(c.gameObject);
-            }
+                    Destroy(c.gameObject);
+                }
+               // Destroy(c.gameObject);
 
             PlayerPieces [selectedPieces.CurrentX, selectedPieces.CurrentY] = null;
             selectedPieces.transform.position = GetTileCenter(x, y);
