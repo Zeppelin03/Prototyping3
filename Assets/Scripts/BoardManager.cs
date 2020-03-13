@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    public GameObject timer;
     public static BoardManager Instance { set; get; }
     private bool[,] allowedMoves{ set; get; }
 
@@ -31,6 +32,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
+        isWhiteTurn = timer.GetComponent<Timer>().isWhiteTurn;
         Instance = this;
         SpawnAllPieces();
         LeaderKilledBase = false;
@@ -68,7 +70,7 @@ public class BoardManager : MonoBehaviour
         if (PlayerPieces [x , y] == null)
             return;
 
-        if (PlayerPieces [x , y].isWhite != isWhiteTurn)
+        if (PlayerPieces [x , y].isWhite != timer.GetComponent<Timer>().isWhiteTurn)
             return;
 
         bool hasAtlestOneMove = false;
@@ -91,7 +93,7 @@ public class BoardManager : MonoBehaviour
         {
             Pieces c = PlayerPieces[x, y];
 
-            if (c != null && c.isWhite != isWhiteTurn)
+            if (c != null && c.isWhite != timer.GetComponent<Timer>().isWhiteTurn)
             {
                 //Capture a piece
 
@@ -113,7 +115,7 @@ public class BoardManager : MonoBehaviour
                         LeaderKilledSpecial = true;
                     }
                 }
-                if (selectedPieces.GetType() == typeof(Leader) && isWhiteTurn)
+                if (selectedPieces.GetType() == typeof(Leader) && timer.GetComponent<Timer>().isWhiteTurn)
                 {
                     if (c.GetType() == typeof(BasePiece))
                     {
@@ -143,7 +145,7 @@ public class BoardManager : MonoBehaviour
             selectedPieces.transform.position = GetTileCenter(x, y);
             selectedPieces.SetPosition(x, y);
             PlayerPieces[x, y] = selectedPieces;
-            isWhiteTurn = !isWhiteTurn;
+            //timer.GetComponent<Timer>().isWhiteTurn = !timer.GetComponent<Timer>().isWhiteTurn;
         }
 
         BoardHighlights.Instance.Hidehighlights();
@@ -251,7 +253,7 @@ public class BoardManager : MonoBehaviour
 
     private void EndGame()
     {
-        if (isWhiteTurn)
+        if (timer.GetComponent<Timer>().isWhiteTurn)
             Debug.Log("White team wins");
 
         else
@@ -265,7 +267,7 @@ public class BoardManager : MonoBehaviour
         LeaderKilledSpecial = false;
         LeaderKilledSpecialWhite = false;
 
-    isWhiteTurn = true;
+        timer.GetComponent<Timer>().isWhiteTurn = true;
         BoardHighlights.Instance.Hidehighlights();
         SpawnAllPieces();
     }
