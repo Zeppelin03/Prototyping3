@@ -168,7 +168,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void SpawnPieces(int index, int x, int y )
+    private void SpawnPieces(int index, int x, int y)
     {
         GameObject go = Instantiate(piecesPrefabs[index], GetTileCenter(x,y) , Quaternion.identity) as GameObject;
         go.transform.SetParent(transform);
@@ -253,6 +253,7 @@ public class BoardManager : MonoBehaviour
     {
         if (isWhiteTurn)
             Debug.Log("White team wins");
+
         else
             Debug.Log("Black team wins");
 
